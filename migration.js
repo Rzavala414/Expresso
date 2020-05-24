@@ -11,7 +11,7 @@ db.serialize(() => {
         PRIMARY KEY(id)
     );`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS Time_sheet(
+    db.run(`CREATE TABLE IF NOT EXISTS Timesheet(
         id INTEGER NOT NULL,
         hours INTEGER NOT NULL,
         rate INTEGER NOT NULL,
