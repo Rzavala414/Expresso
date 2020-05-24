@@ -16,3 +16,5 @@ app.use(errorhandler());
 app.listen(PORT, function(){
     console.log(`app listening on port ${PORT}`);
 });
+
+module.exports = app;
