@@ -15,6 +15,7 @@ db.serialize(() => {
         id INTEGER NOT NULL,
         hours INTEGER NOT NULL,
         rate INTEGER NOT NULL,
+        date INTEGER NOT NULL,
         employee_id INTEGER NOT NULL,
         PRIMARY KEY(id),
         FOREIGN KEY(employee_id) REFERENCES Employee(id)
