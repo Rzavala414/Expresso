@@ -4,10 +4,10 @@ const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
 // Checks if employee exist, if so sends employee if not sends status 404
-employeeRouter.param('Id', (req, res, next, id) =>{
-    const sql = 'SELECT * FROM Employee WHERE id = $employeeId'
+employeeRouter.param('id', (req, res, next, id) =>{
+    const sql = 'SELECT * FROM Employee WHERE id = $employeeid'
     
-    db.get(sql, {$employeeId: id}, (error, employee) => {
+    db.get(sql, {$employeeid: id}, (error, employee) => {
         if(error){
             next(error);
         }else if(employee){
@@ -56,7 +56,7 @@ employeeRouter.post('/', (req, res, next) =>{
             if(error){
                 next(error);
             }else{
-                db.get(`Select * FROM Employee WHERE id = ${this.lastID}`, (error, employee) =>{
+                db.get(`Select * FROM Employee WHERE id = ${this.lastid}`, (error, employee) =>{
                     res.status(201).json({employee: employee})
                 })
             }
@@ -67,7 +67,7 @@ employeeRouter.post('/', (req, res, next) =>{
 
 
 // fix the put route!!!!
-employeeRouter.put('/:Id', (req, res, next) =>{
+employeeRouter.put('/:id', (req, res, next) =>{
     const name = req.body.employee.name,
           position = req.body.employee.position,
           wage = req.body.employee.wage;
@@ -77,7 +77,7 @@ employeeRouter.put('/:Id', (req, res, next) =>{
     }else{
         const sql = 'UPDATE Employee SET name = $name, position = $position, wage = $wage WHERE id = $id ';
         const values ={
-            $id: req.params.Id,
+            $id: req.params.id,
             $name: name,
             $position: position,
             $wage: wage
@@ -87,7 +87,7 @@ employeeRouter.put('/:Id', (req, res, next) =>{
             if(error){
                 next(error);
             }else{
-               db.get(`SELECT * FROM Employee WHERE id = ${req.params.Id}`, (error, employee) => {
+               db.get(`SELECT * FROM Employee WHERE id = ${req.params.id}`, (error, employee) => {
                    res.status(200).json({employees: employee});
                });
             }
@@ -97,13 +97,13 @@ employeeRouter.put('/:Id', (req, res, next) =>{
 
 });
 
-employeeRouter.delete('/:Id', (req, res, next) => {
+employeeRouter.delete('/:id', (req, res, next) => {
   
-    db.run(`UPDATE Employee SET is_current_employee = 0 WHERE id =${req.params.Id}`, error =>{
+    db.run(`UPDATE Employee SET is_current_employee = 0 WHERE id =${req.params.id}`, error =>{
         if(error){
             next(error);
         }else{
-            db.get(`SELECT * FROM Employee WHERE id = ${req.params.Id}`, (error, employee) => {
+            db.get(`SELECT * FROM Employee WHERE id = ${req.params.id}`, (error, employee) => {
                 res.status(200).json({employee: employee});
             });
         }
