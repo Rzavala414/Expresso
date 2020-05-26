@@ -4,10 +4,10 @@ const apiRouter = express.Router();
 const employeesRouter = require('./employees.js');
 apiRouter.use('/employees', employeesRouter);
 
-// const menuRouter = require('./menu.js');
-// const menuItemRouter = require('./menuItem')
+const menuRouter = require('./menu.js');
+apiRouter.use('/menus', menuRouter);
 
-// apiRouter.use('/menu', menuRouter);
+// const menuItemRouter = require('./menuItem');
 // apiRouter.use('/menuItem',menuItemRouter);
 
 

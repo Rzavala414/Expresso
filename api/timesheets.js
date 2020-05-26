@@ -19,7 +19,7 @@ timesheetRouter.param('timesheetId', (req, res, next, timesheetId) =>{
 });
 
 timesheetRouter.get('/', (req, res, next) => {
-    // console.log(req.params.id)
+    
     db.all('SELECT * FROM Timesheet WHERE Timesheet.employee_id = $employeeId',{$employeeId: req.params.employeeId},
         (err, timesheet) => {
             if (err) {

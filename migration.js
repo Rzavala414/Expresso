@@ -24,7 +24,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Menu(
         id INTEGER NOT NULL,
         title TEXT NOT NULL,
-        PRIMARY KEY(1)
+        PRIMARY KEY(id)
     );`);
 
     db.run(`CREATE TABLE IF NOT EXISTS Menuitem(
