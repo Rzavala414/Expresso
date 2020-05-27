@@ -30,45 +30,45 @@ menuItemsRouter.get('/', (req, res, next) => {
     });
   });
 
-menuItemsRouter.post('/', (req, res, next) => {
-    const name = req.body.menuItem.name,
-          description = req.body.menItem.description,
-          inventory = req.body.menuItem.inventory,
-          price = req.body.menuItem.price,
-          menuId = req.params.menuId;
+// menuItemsRouter.post('/', (req, res, next) => {
+//     const name = req.body.menuItem.name,
+//           description = req.body.menItem.description,
+//           inventory = req.body.menuItem.inventory,
+//           price = req.body.menuItem.price,
+//           menuId = req.params.menuId;
     
    
-    const menuSql = 'SELECT * FROM Menu WHERE Menu.id = $menuId';
-    db.get(menuSql, {$menuId: menuId}, (error, menu) =>{
-        if(error){
-            next(error);
-        }else{
+//     const menuSql = 'SELECT * FROM Menu WHERE Menu.id = $menuId';
+//     db.get(menuSql, {$menuId: menuId}, (error, menu) =>{
+//         if(error){
+//             next(error);
+//         }else{
 
-            if(!name || !inventory || !price || !menu){
-                return res.sendStatus(400);
-            }
+//             if(!name || !inventory || !price || !menu){
+//                 return res.sendStatus(400);
+//             }
         
-            const sql = 'INSERT INTO MenuItem (name, description, inventory, price, menu_id) VALUES($name, $description, $inventory $price, $menu_id)';
-            const values = {
-                $name: name,
-                $description: description,
-                $inventory: inventory,
-                $price: price,
-                $menu_id: menuId
-            }
+//             const sql = 'INSERT INTO MenuItem (name, description, inventory, price, menu_id) VALUES($name, $description, $inventory $price, $menu_id)';
+//             const values = {
+//                 $name: name,
+//                 $description: description,
+//                 $inventory: inventory,
+//                 $price: price,
+//                 $menu_id: menuId
+//             }
 
-            db.run(sql, values, function(error){
-                if(error){
-                    next(error);
-                }else{
-                    db.get(`SELECT * FROM MenuItem WHERE MenuItem.id = ${this.lastID}`, (error, menuItem) => {
-                        res.status(201).json({menuItem: menuItem});
-                    })
-                }
-            })
-        }
-    });
-});
+//             db.run(sql, values, function(error){
+//                 if(error){
+//                     next(error);
+//                 }else{
+//                     db.get(`SELECT * FROM MenuItem WHERE MenuItem.id = ${this.lastID}`, (error, menuItem) => {
+//                         res.status(201).json({menuItem: menuItem});
+//                     })
+//                 }
+//             })
+//         }
+//     });
+// });
 
 // menuItemsRouter.put('/', (req, res, next) => {
     
