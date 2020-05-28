@@ -29,7 +29,7 @@ menuItemsRouter.get('/', (req, res, next) => {
     });
   });
 
-menuItemsRouter.post('/:menuItemId', (req, res, next) => {
+menuItemsRouter.post('/', (req, res, next) => {
     const name = req.body.menuItem.name,
           description = req.body.menuItem.description,
           inventory = req.body.menuItem.inventory,
@@ -47,7 +47,7 @@ menuItemsRouter.post('/:menuItemId', (req, res, next) => {
                 return res.sendStatus(400);
             }
         
-            const sql = 'INSERT INTO MenuItem (name, description, inventory, price, menu_id) VALUES($name, $description, $inventory $price, $menu_id)';
+            const sql = 'INSERT INTO MenuItem (name, description, inventory, price, menu_id) VALUES($name, $description, $inventory, $price, $menu_id)';
             const values = {
                 $name: name,
                 $description: description,
@@ -61,7 +61,7 @@ menuItemsRouter.post('/:menuItemId', (req, res, next) => {
                     next(error);
                 }else{
                     db.get(`SELECT * FROM MenuItem WHERE MenuItem.id = ${this.lastID}`, (error, menuItem) => {
-                        res.status(200).json({menuItem: menuItem});
+                        res.status(201).json({menuItem: menuItem});
                     })
                 }
             })
@@ -92,8 +92,8 @@ menuItemsRouter.put('/:menuItemId', (req, res, next) => {
                 $name: name,
                 $description: description,
                 $inventory: inventory,
-                $price: price,
-                $menu_id: menuId
+                $price: price
+                
             }
 
             db.run(sql, values, function(error){
@@ -101,7 +101,7 @@ menuItemsRouter.put('/:menuItemId', (req, res, next) => {
                     next(error);
                 }else{
                     db.get(`SELECT * FROM MenuItem WHERE MenuItem.id = ${req.params.menuItemId}`, (error, menuItem) => {
-                        res.status(201).json({menuItem: menuItem});
+                        res.status(200).json({menuItem: menuItem});
                     })
                 }
             })
