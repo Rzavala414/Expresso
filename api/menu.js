@@ -1,12 +1,13 @@
 const express = require('express');
 const menuRouter = express.Router();
-const menuItemsRouter = require('./menuItem.js');
+
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
+const menuItemsRouter = require('./menuItems.js');
+
 menuRouter.param('menuId', (req, res, next, menuId) => {
-    
-    const sql = 'Select * FROM Menu WHERE id = $menuId';
+    const sql = 'Select * FROM Menu WHERE Menu.id = $menuId';
     db.get(sql,{$menuId: menuId}, (error, menu) =>{
         if(error){
             next(error);
@@ -19,7 +20,7 @@ menuRouter.param('menuId', (req, res, next, menuId) => {
     })
 });
 
-menuRouter.use('/:menuId/menu-item', menuItemsRouter);
+menuRouter.use('/:menuId/menu-items', menuItemsRouter);
 
 menuRouter.get('/', (req, res, next) => {
     db.all('SELECT * FROM Menu', (error, menus) => {
@@ -46,7 +47,7 @@ menuRouter.post('/', (req, res, next) => {
         if(error){
             next(error);
         }else{
-            db.get(`SELECT * FROM Menu WHERE id = ${this.lastID}`, (error, menu) =>{
+            db.get(`SELECT * FROM Menu WHERE Menu.id = ${this.lastID}`, (error, menu) =>{
                 res.status(201).json({menu: menu});
             });
         }
@@ -65,7 +66,7 @@ menuRouter.put('/:menuId', (req, res, next) => {
         if(error){
             next(error);
         }else{
-            db.get(`SELECT * FROM Menu WHERE id = ${req.params.menuId}`, (error, menu) =>{
+            db.get(`SELECT * FROM Menu WHERE Menu.id = ${req.params.menuId}`, (error, menu) =>{
                 res.status(200).json({menu: menu});
             });
         }
@@ -81,4 +82,7 @@ menuRouter.put('/:menuId', (req, res, next) => {
 //         }
 //     });
 // });
+
+
+
 module.exports = menuRouter;
