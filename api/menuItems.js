@@ -111,9 +111,18 @@ menuItemsRouter.put('/:menuItemId', (req, res, next) => {
 
 
 
-// menuItemsRouter.delete('/', (req, res, next) => {
-
-// });
+menuItemsRouter.delete('/:menuItemId', (req, res, next) => {
+    const sql = 'DELETE FROM MenuItem WHERE MenuItem.id = $menuItemId';
+    const values = {$menuItemId: req.params.menuItemId};
+  
+    db.run(sql, values, (error) => {
+      if (error) {
+        next(error);
+      } else {
+        res.sendStatus(204);
+      }
+    });
+  });
   
 
 module.exports = menuItemsRouter;
